@@ -1,0 +1,27 @@
+Local DNS Server's Hostname and IP Address
+
+Aim: To display the local system's hostname and IP address using Python.
+
+Algorithm:
+1. Import the socket module.
+2. Get the local hostname.
+3. Find the IP address associated with the hostname.
+4. Display the hostname and IP address.
+Program:
+import socket
+hostname = socket.gethostname()
+try:
+ip_address = socket.gethostbyname(hostname) 
+print("Local Hostname:", hostname)    
+print("Local IP Address:", ip_address)
+except socket.gaierror:   
+print("Unable to resolve hostname")
+
+
+
+Output:
+Local Hostname: DESKTOP-123
+Local IP Address: 192.168.1.5
+
+
+Result: Thus, the local system's hostname and IP address were displayed successfully.
