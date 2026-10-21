@@ -1,0 +1,22 @@
+Experiment 2: Display All IP Addresses of the System
+
+Aim: To display the IP addresses associated with the system.
+
+Algorithm:
+1. Import the socket module.
+2. Get the hostname.
+3. Retrieve the IP addresses associated with the hostname.
+4. Display each IP address.
+Program:
+import sockethostname = socket.gethostname()addresses = socket.getaddrinfo(hostname, None)print("Hostname:", hostname)print("IP Addresses:")for address in addresses:    ip = address[4][0]    print(ip)
+
+
+
+Output:
+Hostname: DESKTOP-123
+IP Addresses:
+127.0.0.1
+192.168.1.5
+
+
+Result: Thus, the IP addresses associated with the system were displayed successfully. The actual addresses depend on the computer's network configuration.
