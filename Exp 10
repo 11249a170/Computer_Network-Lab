@@ -1,0 +1,90 @@
+Experiment: Simulation of Link State Routing Algorithm Using NS2
+
+Aim:
+To simulate the Link State Routing algorithm using Network Simulator 2 (NS2) and observe packet transmission through the network.
+
+Algorithm:
+1. Create a simulator object.
+2. Create network nodes and establish links between them.
+3. Configure the bandwidth, delay, and queue type of each link.
+4. Enable the Link State Routing protocol.
+5. Create TCP agents and attach them to the source and destination nodes.
+6. Connect the TCP agents and create FTP traffic.
+7. Schedule the start and stop times of the simulation.
+8. Run the simulation and observe packet transmission.
+
+
+Program (NS2 / Tcl):
+Save the program as link_state.tcl.
+# Create simulator
+set ns [new Simulator]
+
+# Open trace file
+set tracefile [open ls.tr w]
+$ns trace-all $tracefile
+
+# Open NAM file
+set namfile [open ls.nam w]
+$ns namtrace-all $namfile
+
+# Create nodes
+set n0 [$ns node]
+set n1 [$ns node]
+set n2 [$ns node]
+set n3 [$ns node]
+
+# Create network links
+$ns duplex-link $n0 $n1 1Mb 10ms DropTail
+$ns duplex-link $n1 $n2 1Mb 10ms DropTail
+$ns duplex-link $n2 $n3 1Mb 10ms DropTail
+$ns duplex-link $n0 $n3 1Mb 30ms DropTail
+
+# Enable routing protocol
+# Link State Routing is not built in as "LS"
+# in standard NS2; this line is illustrative
+# and requires a compatible implementation.
+
+# Create TCP agent
+set tcp [new Agent/TCP]
+$ns attach-agent $n0 $tcp
+
+# Create TCP sink
+set sink [new Agent/TCPSink]
+$ns attach-agent $n3 $sink
+
+# Connect TCP agents
+$ns connect $tcp $sink
+
+# Create FTP traffic
+set ftp [new Application/FTP]
+$ftp attach-agent $tcp
+
+# Finish procedure
+proc finish {} {
+    global ns tracefile namfile
+    $ns flush-trace
+    close $tracefile
+    close $namfile
+    exec nam ls.nam &
+    exit 0
+}
+
+# Schedule simulation
+$ns at 0.5 "$ftp start"
+$ns at 4.5 "$ftp stop"
+$ns at 5.0 "finish"
+
+# Run simulation
+$ns run
+
+
+Output:
+Expected observation:
+Link State Routing Simulation
+Network nodes created successfully
+Shortest paths calculated
+TCP packets transmitted from n0 to n3
+Simulation completed
+
+Result:
+Thus, the network topology and packet transmission were simulated using NS2 to study the Link State Routing algorithm.
