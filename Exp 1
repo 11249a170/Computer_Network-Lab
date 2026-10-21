@@ -1,0 +1,21 @@
+Experiment 1: Find Hostname and IP Address Using Python
+
+Aim: To find the hostname and IP address of the system using Python.
+
+Algorithm:
+1. Import the socket module.
+2. Get the system hostname.
+3. Find the IP address using the hostname.
+4. Display the results.
+Program:
+import sockethostname = socket.gethostname()ip_address = socket.gethostbyname(hostname)print("Hostname:", hostname)print("IP Address:", ip_address)
+
+
+
+Output:
+Hostname: DESKTOP-123
+IP Address: 192.168.1.5
+
+
+Result: Thus, the hostname and IP address of the system were obtained successfully.
+
