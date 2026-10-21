@@ -1,0 +1,37 @@
+Experiment 4: Networking Commands
+Aim: To execute basic networking commands using Python.
+
+Algorithm:
+1. Import the subprocess module.
+2. Read a networking command from the user.
+3. Execute the command.
+4. Display the command output.
+
+Program:
+import subprocess
+print("1. IP Configuration")
+print("2. Ping")
+print("3. Hostname")
+choice = input("Enter your choice: "
+)if choice == "1": 
+command = ["ipconfig"]  # Windows
+elif choice == "2":  
+command = ["ping", "-n", "4", "google.com"]
+elif choice == "3":   
+command = ["hostname"]
+else:  
+print("Invalid choice")    
+exit()
+subprocess.run(command)
+
+
+
+Output:
+1. IP Configuration
+2. Ping
+3. Hostname
+Enter your choice: 3
+DESKTOP-123
+
+
+Result: Thus, basic networking commands were executed successfully using Python. This program uses Windows commands.
