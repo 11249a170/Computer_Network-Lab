@@ -1,0 +1,65 @@
+Experiment 11: TCP Multithreaded Chat Application Using Python Sockets and Threading
+
+
+Aim: To implement a TCP-based multithreaded chat application using Python sockets and the threading module.
+
+Algorithm:
+1. Import the socket and threading modules.
+2. Create a TCP server socket.
+3. Accept client connections.
+4. Create a separate thread for each connected client.
+5. Receive and broadcast messages to other clients.
+6. Allow clients to leave the chat using exit.
+Program 1: Chat Server — server.py
+import socket
+import threading
+clients = []
+lock = threading.Lock()
+def handle_client(conn):   
+with lock:      
+clients.append(conn)   
+try:      
+while True:   
+data = conn.recv(1024)  
+if not data or data.strip().lower() == b"exit": 
+break           
+with lock:         
+for client in clients:
+if client != conn:     
+try:                    
+client.sendall(data) 
+except OSError:           
+pass   
+finally:  
+with lock: 
+if conn in clients: 
+clients.remove(conn)    
+conn.close()server = socket.socket(socket.AF_INET, 
+socket.SOCK_STREAM)
+server.setsockopt(socket.SOL_SOCKET, 
+socket.SO_REUSEADDR, 1)
+server.bind(("127.0.0.1", 6000))
+server.listen()
+print("Chat Server is running...")
+while True:    
+conn, addr = server.accept()
+print("Client connected:", addr)  
+thread = threading.Thread(      
+target=handle_client,      
+args=(conn,),      
+daemon=True  
+)   
+thread.start()
+    
+
+Output:
+Chat Server is running...
+Client connected: ('127.0.0.1', 54321)
+Client connected: ('127.0.0.1', 54322)
+
+
+
+Result: Thus, a multithreaded TCP chat application was implemented successfully, allowing multiple clients to exchange messages through a server.
+
+
+
