@@ -1,0 +1,80 @@
+Experiment: TCP and UDP Protocols Using Python
+Aim
+To implement TCP and UDP communication between a client and a server using Python socket programming.
+Algorithm
+1. Import the socket module.
+2. Create a TCP server using SOCK_STREAM.
+3. Bind the server to an IP address and port number.
+4. Accept the TCP client connection and exchange messages.
+5. Create a UDP server using SOCK_DGRAM.
+6. Receive a message from the UDP client and send a reply.
+7. Display the messages and close the sockets.
+
+Program 1: TCP Server (tcp_server.py)
+import socket
+server = socket.socket(socket.AF_INET, 
+socket.SOCK_STREAM)server.bind(("127.0.0.1", 5000))
+server.listen(1)
+print("TCP Server is waiting...")
+conn,addr = server.accept()
+print("Client connected:", addr)
+data = conn.recv(1024).decode()
+print("Client:", data)
+conn.sendall("Message received by TCP Server".encode())
+conn.close()
+server.close()
+
+TCP output — Server:
+TCP Server is waiting...
+Client connected: ('127.0.0.1', 54321)
+Client: Hello Server
+
+
+Program 2: TCP Client (tcp_client.py)
+import socket
+client = socket.socket(socket.AF_INET, 
+socket.SOCK_STREAM)client.connect(("127.0.0.1", 5000))
+message = input("Enter TCP message: ")
+client.sendall(message.encode())
+reply = client.recv(1024).decode()
+print("Server:", reply
+)client.close()
+
+TCP output — Client:
+Enter TCP message: Hello Server
+Server: Message received by TCP Server
+
+Program 3: UDP Server (udp_server.py)
+import socket
+server = socket.socket(socket.AF_INET, 
+socket.SOCK_DGRAM)server.bind(("127.0.0.1", 6000))
+print("UDP Server is waiting...")
+data, addr = server.recvfrom(1024)
+print("Client:", data.decode())
+server.sendto("Message received by UDP Server".encode(), addr)
+server.close()
+
+UDP output — Server:
+UDP Server is waiting...
+Client: Hello UDP
+
+Program 4: UDP Client (udp_client.py)
+import socket
+client = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
+message = input("Enter UDP message: ")
+client.sendto(message.encode(), ("127.0.0.1", 6000))
+data, addr = client.recvfrom(1024)
+print("Server:", data.decode())
+client.close()
+
+UDP output — Client:
+Enter UDP message: Hello UDP
+Server: Message received by UDP Server
+
+
+
+
+
+
+
+Program 4: UDP Clien
