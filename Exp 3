@@ -1,0 +1,19 @@
+Experiment 3: Display Public IP Address
+
+Aim: To obtain and display the public IP address using Python.
+
+Algorithm:
+1. Import the urllib.request module.
+2. Connect to a public IP lookup service.
+3. Read the returned IP address.
+4. Display the public IP address.
+Program:
+import urllib.requesturl = "https://api.ipify.org"with urllib.request.urlopen(url, timeout=10) as response:    ip = response.read().decode("utf-8")print("Public IP Address:", ip)
+
+
+
+Output:
+Public IP Address: 203.0.113.10
+
+
+Result: Thus, the public IP address was obtained successfully using Python and an internet connection. The output shown is an example.
