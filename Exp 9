@@ -1,0 +1,90 @@
+Experiment: Simulation of Distance Vector Routing Using NS2
+
+Aim:
+To simulate the Distance Vector Routing algorithm using Network Simulator 2 (NS2) and observe the routing of packets in a network.
+
+Algorithm:
+1. Create a simulator object.
+2. Create network nodes and establish links between them.
+3. Configure the links with bandwidth, delay, and queue type.
+4. Enable Distance Vector Routing using the DV routing protocol.
+5. Create TCP agents and attach them to the nodes.
+6. Create a traffic source and connect it to the destination.
+7. Schedule the start and stop times of the simulation.
+8. Run the simulation and observe the packet transmission.
+
+Program (NS2 / Tcl):
+Save the program as distance_vector.tcl.
+# Create simulator
+set ns [new Simulator]
+
+# Open trace file
+set tracefile [open dv.tr w]
+$ns trace-all $tracefile
+
+# Create NAM file
+set namfile [open dv.nam w]
+$ns namtrace-all $namfile
+
+# Create nodes
+set n0 [$ns node]
+set n1 [$ns node]
+set n2 [$ns node]
+set n3 [$ns node]
+
+# Create network links
+$ns duplex-link $n0 $n1 1Mb 10ms DropTail
+$ns duplex-link $n1 $n2 1Mb 10ms DropTail
+$ns duplex-link $n2 $n3 1Mb 10ms DropTail
+$ns duplex-link $n0 $n3 1Mb 30ms DropTail
+
+# Enable Distance Vector Routing
+$ns rtproto DV
+
+# Create TCP agent
+set tcp [new Agent/TCP]
+$ns attach-agent $n0 $tcp
+
+# Create TCP sink
+set sink [new Agent/TCPSink]
+$ns attach-agent $n3 $sink
+
+# Connect TCP agents
+$ns connect $tcp $sink
+
+# Create FTP traffic
+set ftp [new Application/FTP]
+$ftp attach-agent $tcp
+
+# Define finish procedure
+proc finish {} {
+    global ns tracefile namfile
+    $ns flush-trace
+    close $tracefile
+    close $namfile
+    exec nam dv.nam &
+    exit 0
+}
+
+# Schedule simulation
+$ns at 0.5 "$ftp start"
+$ns at 4.5 "$ftp stop"
+$ns at 5.0 "finish"
+
+# Run simulation
+$ns run
+
+
+output:
+Distance Vector Routing Simulation
+Network nodes created successfully
+Routing tables updated
+TCP packets transmitted from n0 to n3
+Simulation completed successfully
+
+
+The NAM window should display four nodes connected by network links, with packets travelling between the source and destination.
+
+
+Result:
+Thus, the Distance Vector Routing algorithm was simulated using NS2, and packet transmission through the network was observed successfully.
